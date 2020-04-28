@@ -10,25 +10,28 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var navController: NavController
+    private lateinit var navController: NavController//dichiarazione del navController, per comodità lo dichiaro con lo stesso nome
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Getting the Navigation Controller
-        navController = Navigation.findNavController(this, R.id.fragment)
 
-        //Setting the navigation controller to Bottom Nav
-        bottomNav.setupWithNavController(navController)
+        navController = Navigation.findNavController(this, R.id.fragment)//ottengo il controllo dei fragment(MainActivity)
 
 
-        //Setting up the action bar
-        NavigationUI.setupActionBarWithNavController(this, navController)
+        bottomNav.setupWithNavController(navController) //imposto il controllo del bottom navigation
+
+
+
+        NavigationUI.setupActionBarWithNavController(this, navController)//imposto action bar
     }
 
-    //Setting Up the back button
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, null)
+        return NavigationUI.navigateUp(navController, null)//impostazione del pulsante indietro
     }
+
+
+
+
 }

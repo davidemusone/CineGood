@@ -16,8 +16,8 @@
         android:label="fragment_aggiungi"
         tools:layout="@layout/fragment_aggiungi" />
     <fragment
-        android:id="@+id/mapsFragment"
-        android:name="com.example.cinegood.MappaFragment"
-        android:label="fragment_mappa"
-        tools:layout="@layout/fragment_mappa" />
+        android:id="@+id/programFragment"
+        android:name="com.example.cinegood.ProgramFragment"
+        android:label="fragment_program"
+        tools:layout="@layout/fragment_program" />
 </navigation>
