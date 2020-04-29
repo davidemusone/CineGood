@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController)//imposto action bar
     }
 
-    override fun onSupportNavigateUp(): Boolean {
+        override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, null)//impostazione del pulsante indietro
     }
 
