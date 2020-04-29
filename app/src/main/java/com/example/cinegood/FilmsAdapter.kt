@@ -4,12 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_edit.view.*
 import kotlinx.android.synthetic.main.recycler_view_film.view.*
 
 class FilmsAdapter : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {
 
     private var films = mutableListOf<Film>()
-     var listener: RecyclerViewClickListener? = null
+    var listener: RecyclerViewClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FilmsViewModel(
         LayoutInflater.from(parent.context)
@@ -18,18 +19,21 @@ class FilmsAdapter : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {
 
     override fun getItemCount() = films.size
 
-    override fun onBindViewHolder(holder: FilmsViewModel, position: Int) {       //faccio sì che sarà visualizzato sul display solo il titolo del libro
+    override fun onBindViewHolder(
+        holder: FilmsViewModel,
+        position: Int
+    ) {
         holder.view.titolo_film.text = films[position].title
-       holder.view.titolo_film.setOnClickListener {
+        holder.view.bottone_modifica.setOnClickListener {
             listener?.onRecyclerViewClickListener(it, films[position])
         }
-        holder.view.bottone_modifica.setOnClickListener {
+        holder.view.bottone_elimina.setOnClickListener {
             listener?.onRecyclerViewClickListener(it, films[position])
         }
     }
 
-    fun setFilms(films: List<Film>){
-        this.films= films as MutableList<Film>
+    fun setFilms(films: List<Film>) {
+        this.films = films as MutableList<Film>
         notifyDataSetChanged()
 
     }
@@ -37,15 +41,18 @@ class FilmsAdapter : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {
     fun addFilm(film: Film) {
         if (!films.contains(film)) {
             films.add(film)
-        }else{
-            val index =films.indexOf(film)
-            films[index] = film
+        } else {
+            val index = films.indexOf(film)
+            if (film.isDELETE) {
+                films.removeAt(index)
+            } else {
+                films[index] = film
+            }
+            notifyDataSetChanged()
         }
-        notifyDataSetChanged()
+
     }
 
+        class FilmsViewModel(val view: View) : RecyclerView.ViewHolder(view)
 
-
-    class FilmsViewModel(val view: View) : RecyclerView.ViewHolder(view)
-
-}
+    }

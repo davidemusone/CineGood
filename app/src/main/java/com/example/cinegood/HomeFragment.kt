@@ -1,25 +1,19 @@
 package com.example.cinegood
 
+import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.fragment_aggiungi.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
-/**
- * A simple [Fragment] subclass.
- */
-
-class HomeFragment : Fragment(), RecyclerViewClickListener {
-
+class HomeFragment : Fragment(), RecyclerViewClickListener{
     private lateinit var viewModel: FilmsViewModel
-    private val adapter = FilmsAdapter()
 
+    private val adapter = FilmsAdapter()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,11 +46,18 @@ class HomeFragment : Fragment(), RecyclerViewClickListener {
 
     override fun onRecyclerViewClickListener(view: View, film: Film) {
         when (view.id){
-            R.id.titolo_film -> {
+
+            R.id.bottone_modifica  -> {
                 EditFragment(film).show(childFragmentManager, "")
             }
-            R.id.bottone_modifica -> {
-            EditFragment(film).show(childFragmentManager,"")
+            R.id.bottone_elimina -> {
+                AlertDialog.Builder(requireContext()).also {
+                    it.setTitle(getString(R.string.conferma_eliminazione))
+                    it.setPositiveButton(getString(R.string.si) ){ dialog, which ->
+                        viewModel.eliminaFilm(film)
+                    }
+                }.create().show()
+
             }
 
         }
@@ -64,3 +65,5 @@ class HomeFragment : Fragment(), RecyclerViewClickListener {
 
     }
 }
+
+

@@ -27,7 +27,7 @@ class EditFragment(
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProviders.of(this)
-            .get(FilmsViewModel::class.java)  //istanza della classe, è diversa poichè estende la classe view Model
+            .get(FilmsViewModel::class.java)
         return inflater.inflate(R.layout.fragment_edit, container, false)
     }
 
@@ -42,37 +42,50 @@ class EditFragment(
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        edit_text_name_titolo.setText(film.title)
-        edit_text_name_data.setText(film.date)
-        edit_text_name_genere.setText(film.genere)
-        ratingbar.rating = film.voto!!.toFloat()
+
+        edit_titolo.setText(film.title)
+        edit_data.setText(film.date)
+        edit_genere.setText(film.genere)
+        ratingb.rating = film.voto!!.toFloat()
+
+
+        viewModel.result.observe(viewLifecycleOwner, Observer {
+            val message = if (it == null) {
+                "Film modificato!"
+            } else {
+                "Non è possiile modificare il film "
+            }
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            dismiss()
+        })
+
 
 
         bottone_edit.setOnClickListener {
-            val name = edit_text_name_titolo.text.toString()
-                .trim()     //metti il nome del film nella variabile name
-            if (name.isEmpty()) {       //se non inserisco il titolo del film ho errore
-                input_layout_name_titolo.error = "Inserire il titolo del film"
+            val title = edit_titolo.text.toString()
+                .trim()
+            if (title.isEmpty()) {
+                layout_titolo.error = "Inserire il titolo del film"
                 return@setOnClickListener
             }
-            val genere = edit_text_name_genere.text.toString().trim()
+            val genere = edit_genere.text.toString().trim()
             if (genere.isEmpty()) {
-                input_layout_name_genere.error = "Inserire il genere del film"
+                layout_genere.error = "Inserire il genere del film"
                 return@setOnClickListener
             }
-            val data = edit_text_name_data.text.toString().trim()
+            val data = edit_data.text.toString().trim()
             if (data.isEmpty()) {
-                input_layout_name_data.error = "Inserire la data della visione del Film"
+                layout_data.error = "Inserire la data della visione del Film"
                 return@setOnClickListener
             }
-            val votazione = ratingbar.rating.toInt()
+            val votazione = ratingb.rating.toInt()
             if (votazione == 0) {
-                input_layout_name_rating.error = "Inserire la valutazione del Film"
+                layout_ratingb.error = "Inserire la valutazione del Film"
                 return@setOnClickListener
             }
             //aggiorno l'oggetto del film
-            val film = Film()
-            film.title = name
+
+            film.title = title
             film.date = data
             film.genere = genere
             film.voto = votazione

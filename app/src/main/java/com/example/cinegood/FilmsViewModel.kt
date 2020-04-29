@@ -7,7 +7,7 @@ import com.google.firebase.database.*
 
 class FilmsViewModel() :ViewModel() {
 
-  private val dbFilms = FirebaseDatabase.getInstance().getReference("film")   //creo riferimento al db,serve a entrambe le classi
+  private val dbFilms = FirebaseDatabase.getInstance().getReference("film")             //creo riferimento al db,serve a entrambe le classi
 
     private val _films = MutableLiveData<List<Film>>()
     val  films: LiveData<List<Film>>
@@ -17,13 +17,13 @@ class FilmsViewModel() :ViewModel() {
     val  film: LiveData<Film>
         get() = _film
 
-    private val _result = MutableLiveData<Exception?>()     //mi serve per capire se il libro è stato salvato o meno
-    val result: LiveData<Exception?>                        //la uso per accedere a _result fuori da FilmsViewModel
+    private val _result = MutableLiveData<Exception?>()                                            //mi serve per capire se il libro è stato salvato o meno
+    val result: LiveData<Exception?>                                                                      //la uso per accedere a _result fuori da FilmsViewModel
         get() = _result
 
     fun addFilm(film: Film) {
 
-        film.id = dbFilms.push().key    //con push genero la chiave (=id), con key posso recuperarla
+        film.id = dbFilms.push().key                                                               //con push genero la chiave (=id), con key posso recuperarla
 
         dbFilms.child(film.id!!).setValue(film)     //setto i valori
             .addOnCompleteListener{
@@ -39,13 +39,9 @@ class FilmsViewModel() :ViewModel() {
     }
 
     private val childEventListener = object : ChildEventListener{
-        override fun onCancelled(error: DatabaseError) {
-            TODO("Not yet implemented")
-        }
+        override fun onCancelled(error: DatabaseError) {}
 
-        override fun onChildMoved(snapshot:  DataSnapshot, p1: String?) {
-            TODO("Not yet implemented")
-        }
+        override fun onChildMoved(snapshot:  DataSnapshot, p1: String?) {}
 
         override fun onChildChanged(snapshot: DataSnapshot, p1: String?) {
             val film = snapshot.getValue(Film::class.java)
@@ -60,7 +56,10 @@ class FilmsViewModel() :ViewModel() {
         }
 
         override fun onChildRemoved(snapshot: DataSnapshot) {
-            TODO("Not yet implemented")
+            val film = snapshot.getValue(Film::class.java)
+            film?.id= snapshot.key
+            film?.isDELETE = true
+            _film.value=film
         }
 
 
@@ -94,9 +93,23 @@ class FilmsViewModel() :ViewModel() {
 
         }
     fun updateFilm(film: Film){
-        film.id = dbFilms.push().key    //con push genero la chiave (=id), con key posso recuperarla
+      //  film.id = dbFilms.push().key                                       //con push genero la chiave (=id), con key posso recuperarla
 
-        dbFilms.child(film.id!!).setValue(film)     //setto i valori
+        dbFilms.child(film.id!!).setValue(film)                                //setto i valori
+            .addOnCompleteListener{
+                if (it.isSuccessful) {                                      //controllo se il film è stato salvato o meno (vedi AggiungiFragment)
+                    _result.value = null
+                } else {
+                    _result.value = it.exception
+                }
+
+
+            }
+
+    }
+      fun eliminaFilm(film: Film){
+
+        dbFilms.child(film.id!!).setValue(null)     //non setto i valori
             .addOnCompleteListener{
                 if (it.isSuccessful) {      //controllo se il film è stato salvato o meno (vedi AggiungiFragment)
                     _result.value = null
@@ -106,6 +119,8 @@ class FilmsViewModel() :ViewModel() {
 
 
             }
+
+
 
     }
 
