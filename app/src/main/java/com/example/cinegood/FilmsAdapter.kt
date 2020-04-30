@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_edit.view.*
 import kotlinx.android.synthetic.main.recycler_view_film.view.*
 
-class FilmsAdapter : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {
+class FilmsAdapter : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {   //mi serve per visualizzare la recycler view
 
     private var films = mutableListOf<Film>()
     var listener: RecyclerViewClickListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FilmsViewModel(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FilmsViewModel(  //faccio sì che sarà visualizzato sul display solo il titolo del libro
         LayoutInflater.from(parent.context)
             .inflate(R.layout.recycler_view_film, parent, false)
     )
@@ -36,12 +36,12 @@ class FilmsAdapter : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {
         }
     }
 
-    fun setFilms(films: List<Film>) {
-        this.films = films as MutableList<Film>
-        notifyDataSetChanged()
+    fun setFilms(films: List<Film>) { //setto la lista
+        this.films = films as MutableList<Film> //cast come MutableList
+        notifyDataSetChanged()   //visualizzo sul display
 
     }
-
+    //utile per aggiornamenti realtime
     fun addFilm(film: Film) {
         if (!films.contains(film)) {
             films.add(film)

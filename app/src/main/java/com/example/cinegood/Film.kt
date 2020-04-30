@@ -13,9 +13,10 @@ data class Film(
     @get:Exclude
     var isDELETE: Boolean = false
 ){
+    //mi serve per evitare titoli duplicati
     override fun equals(other: Any?): Boolean {
-        return if(other is Film){
-            other.id == id
+        return if(other is Film){ //other è un'istanza di Book
+            other.id == id       //il film è già presente
         } else false
     }
 

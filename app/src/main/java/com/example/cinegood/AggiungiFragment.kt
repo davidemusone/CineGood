@@ -1,12 +1,12 @@
 package com.example.cinegood
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_aggiungi.*
@@ -16,16 +16,18 @@ import kotlinx.android.synthetic.main.fragment_aggiungi.*
  */
 class AggiungiFragment : DialogFragment() {
 
-    private lateinit var viewModel: FilmsViewModel
-
+    private lateinit var viewModel: FilmsViewModel    //mi serve per accedere ad addFilm=metodo per generare la chiave..
+                                                        //FilmsViewModel è la classe per prendere il metodo
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        viewModel = ViewModelProviders.of(this).get(FilmsViewModel::class.java)  //istanza della classe, è diversa poichè estende la classe view Model
+        viewModel = ViewModelProviders.of(this).get(FilmsViewModel::class.java)  //istanza della classe, è diversa poichè estende
+                                                                                            // la classe view Model
         return inflater.inflate(R.layout.fragment_aggiungi, container, false)
     }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,14 +35,17 @@ class AggiungiFragment : DialogFragment() {
     }
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {//questo ovverride, ne contiene altri due, (il secondo) serve per
+                                                                    // iserire i campi quando premo il bottone
+                                                                    // aggiungi e per (primo ovveride) vedere il messaggio di successo
+                                                                //o di errore dopo averlo inviato
         super.onActivityCreated(savedInstanceState)
 
         viewModel.result.observe(viewLifecycleOwner, Observer {
 
-            val messaggio = if(it ==null){
+            val messaggio = if(it ==null){//il film è stato aggiunto nel db
                 "Film aggiunto"
-            }else{  //il libro è stato aggiunto nel db
+            }else{  //il film non è stato aggiunto nel db
                 getString(R.string.error_db)
             }
             Toast.makeText(requireContext(),messaggio, Toast.LENGTH_SHORT).show() //mostra l'errore o il messaggio di successo
@@ -49,7 +54,7 @@ class AggiungiFragment : DialogFragment() {
 
 
         aggiungi_bottone.setOnClickListener{
-            val name = edit_text_name_titolo.text.toString().trim()     //metti il nome del film nella variabile name
+            val name = edit_text_name_titolo.text.toString().trim()     //metti il titolo del film nella variabile name
             if (name.isEmpty()) {       //se non inserisco il titolo del film ho errore
                 input_layout_name_titolo.error = "Inserire il titolo del film"
                 return@setOnClickListener
@@ -69,13 +74,13 @@ class AggiungiFragment : DialogFragment() {
                 input_layout_name_rating.error = "Inserire la valutazione del Film"
                 return@setOnClickListener
             }
-            //costruisco l'oggetto del libro
+            //costruisco l'oggetto del film
             val film = Film()
             film.title=name
             film.date=data
             film.genere=genere
             film.voto=votazione
-            viewModel.addFilm(film)
+            viewModel.addFilm(film)   //metodo addFilm all'interno di viewModel
 
         }
 

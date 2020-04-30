@@ -7,26 +7,37 @@ import com.google.firebase.database.*
 
 class FilmsViewModel() :ViewModel() {
 
-  private val dbFilms = FirebaseDatabase.getInstance().getReference("film")             //creo riferimento al db,serve a entrambe le classi
+  private val dbFilms = FirebaseDatabase.getInstance().getReference("film") //creo riferimento al db,serve ad entrambi i metodi
+                                                                                  //per questo lo dichiaro qui
 
-    private val _films = MutableLiveData<List<Film>>()
+
+
+    private val _films = MutableLiveData<List<Film>>()    //lista in cui vanno i titoli dei film (cfr fun async); vedi
     val  films: LiveData<List<Film>>
     get() = _films
 
-    private val _film = MutableLiveData<Film>()
+
+
+    private val _film = MutableLiveData<Film>()     //utile per aggiunta libri aggiornamento realtime
     val  film: LiveData<Film>
         get() = _film
 
-    private val _result = MutableLiveData<Exception?>()                                            //mi serve per capire se il libro è stato salvato o meno
-    val result: LiveData<Exception?>                                                                      //la uso per accedere a _result fuori da FilmsViewModel
+
+
+
+    private val _result = MutableLiveData<Exception?>()          //mi serve per capire se il film è stato salvato o meno
+    val result: LiveData<Exception?>                             //la uso per accedere a _result fuori da FilmsViewModel
         get() = _result
+
+
+    //primo passo generare la chiave id e setto i valori e sopra creo una costante result per vedere se il film è stato salvato
+
 
     fun addFilm(film: Film) {
 
-        film.id = dbFilms.push().key                                                               //con push genero la chiave (=id), con key posso recuperarla
+        film.id = dbFilms.push().key                             //con push genero la chiave (=id), con key posso recuperarla
 
-        dbFilms.child(film.id!!).setValue(film)     //setto i valori
-            .addOnCompleteListener{
+        dbFilms.child(film.id!!).setValue(film).addOnCompleteListener{   //setto i valori
                 if (it.isSuccessful) {      //controllo se il film è stato salvato o meno (vedi AggiungiFragment)
                     _result.value = null
                 } else {
@@ -38,7 +49,8 @@ class FilmsViewModel() :ViewModel() {
 
     }
 
-    private val childEventListener = object : ChildEventListener{
+    private val childEventListener = object : ChildEventListener{    //utile per RealTimeUpdates
+
         override fun onCancelled(error: DatabaseError) {}
 
         override fun onChildMoved(snapshot:  DataSnapshot, p1: String?) {}
@@ -65,25 +77,29 @@ class FilmsViewModel() :ViewModel() {
 
     }
 
-    fun getRealtimeUpdates(){
+    fun getRealtimeUpdates(){    //mi serve per far sì che il display si aggiorni in tempo reale
+                                 //ho usato addListenerForSingleValueEvent in recuperoFilm
         dbFilms.addChildEventListener(childEventListener)
     }
 
-        fun recuperoFilm(){
+        fun recuperoFilm(){   //mi restituisce il titolo del libro
             dbFilms.addListenerForSingleValueEvent(object: ValueEventListener{
+                //le due funzioni sottostanti sono asincrone
                 override fun onCancelled(error: DatabaseError) {
 
                 }
 
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()){
-                        val films = mutableListOf<Film>()
-                        for(filmsnapshot in snapshot.children){
-                            val film = filmsnapshot.getValue(Film::class.java)
-                            film?.id= filmsnapshot.key
-                            film?.let { films.add(it) }
+                override fun onDataChange(snapshot: DataSnapshot) { //snapshot contiene tutto ciò che sta nel nodo film
+                    if (snapshot.exists()){                          //controllo se snapshot contiene qualcosa
+                        val films = mutableListOf<Film>()            //ci vanno i titoli dei film
+                        for(filmsnapshot in snapshot.children){    //scansiono tutti i figli di snapshot=tutti i sottonodi
+                                                                    // del nodo film
+                            val film = filmsnapshot.getValue(Film::class.java) //converto il dato snapshot nella classe Film,
+                                                                                // saranno riempiti tutti i campi tranne l'id
+                            film?.id= filmsnapshot.key                           //aggiunta campo id
+                            film?.let { films.add(it) }                          //se film non è nullo lo aggiunto alla lista
                         }
-                        _films.value= films
+                        _films.value= films                                      //inserisco la lista in _films causa fun async
                     }
                 }
 
@@ -93,11 +109,9 @@ class FilmsViewModel() :ViewModel() {
 
         }
     fun updateFilm(film: Film){
-      //  film.id = dbFilms.push().key                                       //con push genero la chiave (=id), con key posso recuperarla
-
-        dbFilms.child(film.id!!).setValue(film)                                //setto i valori
+        dbFilms.child(film.id!!).setValue(film)               //setto i valori
             .addOnCompleteListener{
-                if (it.isSuccessful) {                                      //controllo se il film è stato salvato o meno (vedi AggiungiFragment)
+                if (it.isSuccessful) {                       //controllo se il film è stato salvato o meno (vedi AggiungiFragment)
                     _result.value = null
                 } else {
                     _result.value = it.exception
