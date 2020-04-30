@@ -50,7 +50,7 @@ class HomeFragment : Fragment(), RecyclerViewClickListener{
 
             R.id.titolo_film ->{
                 DettagliFragment(film).show(childFragmentManager,"")
-                Toast.makeText(this, childFragmentManager, Toast.LENGTH_SHORT).show()
+
             }
 
             R.id.bottone_modifica  -> {

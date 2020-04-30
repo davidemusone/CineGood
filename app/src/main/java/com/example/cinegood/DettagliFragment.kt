@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_dettagli.*
 /**
  * A simple [Fragment] subclass.
  */
-class DettagliFragment(private val film : Film) : Fragment() {
+class DettagliFragment(private val film : Film) : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
