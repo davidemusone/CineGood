@@ -21,7 +21,6 @@
             android:textSize="20sp"
             tools:text="Titolo film"
             android:textStyle="italic"
-
             android:layout_marginRight="12dp"
             android:layout_toLeftOf="@id/layout_options" />
 

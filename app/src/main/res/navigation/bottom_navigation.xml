@@ -10,7 +10,11 @@
         android:id="@+id/homeFragment"
         android:name="com.example.cinegood.HomeFragment"
         android:label="CineGood"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_dettagliFragment"
+            app:destination="@id/dettagliFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addFragment"
         android:name="com.example.cinegood.AggiungiFragment"
@@ -21,4 +25,9 @@
         android:name="com.example.cinegood.ProgramFragment"
         android:label="CineGood"
         tools:layout="@layout/fragment_program" />
+    <dialog
+        android:id="@+id/dettagliFragment"
+        android:name="com.example.cinegood.DettagliFragment"
+        android:label="CineGood"
+        tools:layout="@layout/fragment_dettagli" />
 </navigation>

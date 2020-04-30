@@ -6,13 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentContainer
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.fragment_aggiungi.*
-import kotlinx.android.synthetic.main.fragment_aggiungi.input_layout_name_data
-import kotlinx.android.synthetic.main.fragment_aggiungi.input_layout_name_genere
-import kotlinx.android.synthetic.main.fragment_aggiungi.input_layout_name_titolo
 import kotlinx.android.synthetic.main.fragment_edit.*
 
 class EditFragment(

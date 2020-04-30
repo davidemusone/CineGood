@@ -24,6 +24,10 @@ class FilmsAdapter : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {
         position: Int
     ) {
         holder.view.titolo_film.text = films[position].title
+        holder.view.titolo_film.setOnClickListener {
+            listener?.onRecyclerViewClickListener(it, films[position])
+        }
+
         holder.view.bottone_modifica.setOnClickListener {
             listener?.onRecyclerViewClickListener(it, films[position])
         }
