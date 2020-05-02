@@ -1,13 +1,18 @@
 package com.example.cinegood
 
+import android.app.ListActivity
+import android.widget.ListView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.*
+import java.util.ArrayList
+
+
 
 class FilmsViewModel() :ViewModel() {
 
-  private val dbFilms = FirebaseDatabase.getInstance().getReference("film") //creo riferimento al db,serve ad entrambi i metodi
+   val dbFilms = FirebaseDatabase.getInstance().getReference("film") //creo riferimento al db,serve ad entrambi i metodi
                                                                                   //per questo lo dichiaro qui
 
 
@@ -17,10 +22,12 @@ class FilmsViewModel() :ViewModel() {
     get() = _films
 
 
+    val titolo= ArrayList<Film>()
 
     private val _film = MutableLiveData<Film>()     //utile per aggiunta libri aggiornamento realtime
     val  film: LiveData<Film>
         get() = _film
+
 
 
 
@@ -90,18 +97,28 @@ class FilmsViewModel() :ViewModel() {
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) { //snapshot contiene tutto ciò che sta nel nodo film
-                    if (snapshot.exists()){                          //controllo se snapshot contiene qualcosa
+
+                    if (snapshot.exists()) {                          //controllo se snapshot contiene qualcosa
+                        val titolo = arrayListOf<Film>()
                         val films = mutableListOf<Film>()            //ci vanno i titoli dei film
-                        for(filmsnapshot in snapshot.children){    //scansiono tutti i figli di snapshot=tutti i sottonodi
-                                                                    // del nodo film
-                            val film = filmsnapshot.getValue(Film::class.java) //converto il dato snapshot nella classe Film,
-                                                                                // saranno riempiti tutti i campi tranne l'id
-                            film?.id= filmsnapshot.key                           //aggiunta campo id
+                        for (filmsnapshot in snapshot.children) {    //scansiono tutti i figli di snapshot=tutti i sottonodi
+                            // del nodo film
+                            val film =
+                                filmsnapshot.getValue(Film::class.java) //converto il dato snapshot nella classe Film,
+                            // saranno riempiti tutti i campi tranne l'id
+                            film?.id =
+                                filmsnapshot.key                           //aggiunta campo id
+
                             film?.let { films.add(it) }                          //se film non è nullo lo aggiunto alla lista
                         }
-                        _films.value= films                                      //inserisco la lista in _films causa fun async
+                        _films.value = films //inserisco la lista in _films causa fun async
+                        _films.value=titolo
                     }
+
+
+
                 }
+
 
 
             })
@@ -136,7 +153,8 @@ class FilmsViewModel() :ViewModel() {
 
 
 
-    }
+}
+
 
 
     override fun onCleared() {

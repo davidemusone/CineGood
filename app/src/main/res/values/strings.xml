@@ -8,4 +8,5 @@
     <string name="conferma_eliminazione">Sei sicuro di voler eliminare questo film?</string>
     <string name="si">si</string>
     <string name="no">no</string>
+    <string name="cerca">Cerca</string>
 </resources>

@@ -3,11 +3,13 @@ package com.example.cinegood
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_edit.view.*
 import kotlinx.android.synthetic.main.recycler_view_film.view.*
 
-class FilmsAdapter : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {   //mi serve per visualizzare la recycler view
+class FilmsAdapter() : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {   //mi serve per visualizzare la recycler view
+
+
 
     private var films = mutableListOf<Film>()
     var listener: RecyclerViewClickListener? = null
@@ -19,11 +21,10 @@ class FilmsAdapter : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {   //m
 
     override fun getItemCount() = films.size
 
-    override fun onBindViewHolder(
-        holder: FilmsViewModel,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: FilmsViewModel, position: Int) {
+
         holder.view.titolo_film.text = films[position].title
+
         holder.view.titolo_film.setOnClickListener {
             listener?.onRecyclerViewClickListener(it, films[position])
         }
@@ -31,6 +32,7 @@ class FilmsAdapter : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {   //m
         holder.view.bottone_modifica.setOnClickListener {
             listener?.onRecyclerViewClickListener(it, films[position])
         }
+
         holder.view.bottone_elimina.setOnClickListener {
             listener?.onRecyclerViewClickListener(it, films[position])
         }
@@ -54,6 +56,12 @@ class FilmsAdapter : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {   //m
             }
             notifyDataSetChanged()
         }
+
+    }
+
+
+    fun clear(film: Film){
+
 
     }
 

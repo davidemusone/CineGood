@@ -3,25 +3,15 @@ package com.example.cinegood
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import android.widget.EditText
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.recycler_view_film.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment(), RecyclerViewClickListener{
-
-    var arrayList = ArrayList<Film>()
-    var displayList = ArrayList<Film>()
-
-
 
 
     private lateinit var viewModel: FilmsViewModel //mi serve per accedere a recuperoFilm
@@ -31,13 +21,14 @@ class HomeFragment : Fragment(), RecyclerViewClickListener{
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         viewModel = ViewModelProviders.of(this).get(FilmsViewModel::class.java)    //istanza, posso richiamare
-                                                                                                // il metodo recuperofilm() e altri
-        return inflater.inflate(R.layout.fragment_home, container, false)
-
-
+                                                                                            // il metodo recuperofilm() e altri
+         return  inflater.inflate(R.layout.fragment_home, container, false)
 
     }
+
 
 
 
@@ -46,51 +37,55 @@ class HomeFragment : Fragment(), RecyclerViewClickListener{
     //per la search bar
 
 
+/*
 
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater : MenuInflater) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
-            super.onCreateOptionsMenu(menu, inflater)
 
-        menu.clear()
         inflater.inflate(R.menu.menu_search, menu)
-        val searchView = SearchView((context as MainActivity).supportActionBar?.themedContext ?: context)
-        menu.findItem(R.id.search).apply {
-            setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
-            actionView = searchView
-        }
+        val searchItem= menu.findItem(R.id.search)
 
-        searchView.setOnQueryTextListener(object : OnQueryTextListener {
+        if (searchItem != null) {
+            val searchView = searchItem.actionView as SearchView
+            val editText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+            editText.hint = "Cerca"
 
-
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-                searchView.clearFocus()
-                searchView.setQuery("", false)
-                menu.findItem(R.id.search).collapseActionView()
-                return true
-            }
-
-
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.isNotEmpty()) {
-                    displayList.clear()
-                    val search = newText.toLowerCase(Locale.getDefault())
-                    arrayList.forEach {
-                        if (it.title!!.toLowerCase(Locale.getDefault()).contains(search)) {
-                            displayList.add(it)
-                        }
-                    }
-                    recycler_view.adapter!!.notifyDataSetChanged()
-                } else {
-                    displayList.clear()
-                    displayList.addAll(arrayList)
-                    recycler_view.adapter!!.notifyDataSetChanged()
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    searchItem.collapseActionView()
+                    return true
                 }
-                return true
+
+
+                override fun onQueryTextChange(newText: String): Boolean {
+
+
+                    val arrayList = viewModel.titolo
+                    val displayList = viewModel.titolo
+                    if (newText.isNotEmpty()) {
+                        displayList.clear()
+                        val search = newText.toLowerCase(Locale.getDefault())
+                        arrayList.forEach {
+                            if (it.title!!.toLowerCase(Locale.getDefault()).contains(search)){
+                                displayList.add(it)
+                            }
+
+                        }
+
+                        recycler_view.adapter!!.notifyDataSetChanged()
+                    } else {
+                        displayList.clear()
+                        displayList.addAll(arrayList)
+                        recycler_view.adapter!!.notifyDataSetChanged()
+                    }
+
+                    return true
             }
         })
+            }
+
+
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -98,12 +93,12 @@ class HomeFragment : Fragment(), RecyclerViewClickListener{
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
+*/
 
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
 
 
         adapter.listener = this
@@ -156,6 +151,8 @@ class HomeFragment : Fragment(), RecyclerViewClickListener{
 
 
 }
+
+
 
 
 
