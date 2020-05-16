@@ -10,11 +10,7 @@
         android:id="@+id/homeFragment"
         android:name="com.example.cinegood.HomeFragment"
         android:label="CineGood"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_dettagliFragment"
-            app:destination="@id/dettagliFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/addFragment"
         android:name="com.example.cinegood.AggiungiFragment"

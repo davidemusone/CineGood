@@ -3,7 +3,6 @@ package com.example.cinegood
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.recycler_view_film.view.*
 
@@ -56,12 +55,6 @@ class FilmsAdapter() : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {   /
             }
             notifyDataSetChanged()
         }
-
-    }
-
-
-    fun clear(film: Film){
-
 
     }
 

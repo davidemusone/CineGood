@@ -21,9 +21,6 @@ class FilmsViewModel() :ViewModel() {
     val  films: LiveData<List<Film>>
     get() = _films
 
-
-    val titolo= ArrayList<Film>()
-
     private val _film = MutableLiveData<Film>()     //utile per aggiunta libri aggiornamento realtime
     val  film: LiveData<Film>
         get() = _film
@@ -84,7 +81,7 @@ class FilmsViewModel() :ViewModel() {
 
     }
 
-    fun getRealtimeUpdates(){    //mi serve per far sì che il display si aggiorni in tempo reale
+    fun RealtimeUpdates(){    //mi serve per far sì che il display si aggiorni in tempo reale
                                  //ho usato addListenerForSingleValueEvent in recuperoFilm
         dbFilms.addChildEventListener(childEventListener)
     }

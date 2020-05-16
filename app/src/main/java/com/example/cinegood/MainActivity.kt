@@ -20,8 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        navController = Navigation.findNavController(
+       navController = Navigation.findNavController(
             this,
             R.id.fragment
         )//ottengo il controllo dei fragment(MainActivity)
@@ -37,7 +36,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, null)//impostazione del pulsante indietro
     }
-
 }
 
 

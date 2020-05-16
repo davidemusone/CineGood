@@ -2,14 +2,14 @@ package com.example.cinegood
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.view.*
-import android.widget.EditText
-import androidx.appcompat.widget.SearchView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.util.*
 
 class HomeFragment : Fragment(), RecyclerViewClickListener{
 
@@ -32,71 +32,6 @@ class HomeFragment : Fragment(), RecyclerViewClickListener{
 
 
 
-
-
-    //per la search bar
-
-
-/*
-
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
-
-        inflater.inflate(R.menu.menu_search, menu)
-        val searchItem= menu.findItem(R.id.search)
-
-        if (searchItem != null) {
-            val searchView = searchItem.actionView as SearchView
-            val editText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
-            editText.hint = "Cerca"
-
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    searchItem.collapseActionView()
-                    return true
-                }
-
-
-                override fun onQueryTextChange(newText: String): Boolean {
-
-
-                    val arrayList = viewModel.titolo
-                    val displayList = viewModel.titolo
-                    if (newText.isNotEmpty()) {
-                        displayList.clear()
-                        val search = newText.toLowerCase(Locale.getDefault())
-                        arrayList.forEach {
-                            if (it.title!!.toLowerCase(Locale.getDefault()).contains(search)){
-                                displayList.add(it)
-                            }
-
-                        }
-
-                        recycler_view.adapter!!.notifyDataSetChanged()
-                    } else {
-                        displayList.clear()
-                        displayList.addAll(arrayList)
-                        recycler_view.adapter!!.notifyDataSetChanged()
-                    }
-
-                    return true
-            }
-        })
-            }
-
-
-        return super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-*/
-
-
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -105,7 +40,7 @@ class HomeFragment : Fragment(), RecyclerViewClickListener{
         recycler_view.adapter = adapter             //setto l'adapter
 
         viewModel.recuperoFilm()                    //recupero dati
-        viewModel.getRealtimeUpdates()
+        viewModel.RealtimeUpdates()
 
         //prendo films di tipo LiveData e lo inserisco nella lista che sarà visualizzata sul display
         viewModel.films.observe(viewLifecycleOwner,  Observer {
@@ -146,9 +81,6 @@ class HomeFragment : Fragment(), RecyclerViewClickListener{
 
 
     }
-
-
-
 
 }
 

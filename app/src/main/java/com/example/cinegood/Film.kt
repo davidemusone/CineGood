@@ -1,7 +1,6 @@
 package com.example.cinegood
 
 import com.google.firebase.database.Exclude
-import retrofit2.http.DELETE
 
 data class Film(
     @get:Exclude        //l' id non verrà memorizzato nel nodo

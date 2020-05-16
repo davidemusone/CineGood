@@ -1,18 +1,14 @@
 package com.example.cinegood
 
 import android.os.Bundle
-import android.view.*
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import kotlinx.android.synthetic.*
-import kotlinx.android.synthetic.main.fragment_program.*
+import androidx.fragment.app.Fragment
 
 
 /**
@@ -51,9 +47,6 @@ class ProgramFragment : Fragment() {
 
           return v
       }
-
-
-          
 
 }
 

@@ -11,9 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_aggiungi.*
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class AggiungiFragment : DialogFragment() {
 
     private lateinit var viewModel: FilmsViewModel    //mi serve per accedere ad addFilm=metodo per generare la chiave..
