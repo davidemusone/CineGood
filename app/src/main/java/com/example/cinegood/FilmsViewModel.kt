@@ -96,7 +96,6 @@ class FilmsViewModel() :ViewModel() {
                 override fun onDataChange(snapshot: DataSnapshot) { //snapshot contiene tutto ciò che sta nel nodo film
 
                     if (snapshot.exists()) {                          //controllo se snapshot contiene qualcosa
-                        val titolo = arrayListOf<Film>()
                         val films = mutableListOf<Film>()            //ci vanno i titoli dei film
                         for (filmsnapshot in snapshot.children) {    //scansiono tutti i figli di snapshot=tutti i sottonodi
                             // del nodo film
@@ -109,7 +108,6 @@ class FilmsViewModel() :ViewModel() {
                             film?.let { films.add(it) }                          //se film non è nullo lo aggiunto alla lista
                         }
                         _films.value = films //inserisco la lista in _films causa fun async
-                        _films.value=titolo
                     }
 
 

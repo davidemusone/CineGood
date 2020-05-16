@@ -73,6 +73,9 @@ class HomeFragment : Fragment(), RecyclerViewClickListener{
                     it.setPositiveButton(getString(R.string.si) ){ dialog, which ->
                         viewModel.eliminaFilm(film)
                     }
+                    it.setNegativeButton("no"){dialog, which ->  
+                        
+                    }
                 }.create().show()
 
             }
