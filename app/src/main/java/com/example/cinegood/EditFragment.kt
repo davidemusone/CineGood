@@ -17,7 +17,7 @@ class EditFragment(
     private lateinit var viewModel: FilmsViewModel          //mi serve per accedere ad aggiungiFragment
 
     override fun onCreateView(
-        inflater: LayoutInflater,   // Inflate the layout for this fragment
+        inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -57,7 +57,7 @@ class EditFragment(
 
 
         bottone_edit.setOnClickListener {
-            val title = edit_titolo.text.toString().trim() //metti il titolo del libro nella variabile title
+            val title = edit_titolo.text.toString().trim() //metti il titolo del film nella variabile title
             if (title.isEmpty()) {                      //se non inserisco il titolo ho errore
                 layout_titolo.error = "Inserire il titolo del film"
                 return@setOnClickListener

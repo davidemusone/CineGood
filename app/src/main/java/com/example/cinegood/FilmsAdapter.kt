@@ -13,7 +13,7 @@ class FilmsAdapter() : RecyclerView.Adapter<FilmsAdapter.FilmsViewModel>() {   /
     private var films = mutableListOf<Film>()
     var listener: RecyclerViewClickListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FilmsViewModel(  //faccio sì che sarà visualizzato sul display solo il titolo del libro
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FilmsViewModel(  //faccio sì che sarà visualizzato sul display solo il titolo del film
         LayoutInflater.from(parent.context)
             .inflate(R.layout.recycler_view_film, parent, false)
     )

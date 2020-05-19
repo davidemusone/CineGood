@@ -1,19 +1,15 @@
 package com.example.cinegood
 
-import android.app.ListActivity
-import android.widget.ListView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.*
-import java.util.ArrayList
-
 
 
 class FilmsViewModel() :ViewModel() {
 
    val dbFilms = FirebaseDatabase.getInstance().getReference("film") //creo riferimento al db,serve ad entrambi i metodi
-                                                                                  //per questo lo dichiaro qui
+                                                                                           //per questo lo dichiaro qui
 
 
 
@@ -98,10 +94,10 @@ class FilmsViewModel() :ViewModel() {
                     if (snapshot.exists()) {                          //controllo se snapshot contiene qualcosa
                         val films = mutableListOf<Film>()            //ci vanno i titoli dei film
                         for (filmsnapshot in snapshot.children) {    //scansiono tutti i figli di snapshot=tutti i sottonodi
-                            // del nodo film
+                                                                                      // del nodo film
                             val film =
                                 filmsnapshot.getValue(Film::class.java) //converto il dato snapshot nella classe Film,
-                            // saranno riempiti tutti i campi tranne l'id
+                                                                         // saranno riempiti tutti i campi tranne l'id
                             film?.id =
                                 filmsnapshot.key                           //aggiunta campo id
 

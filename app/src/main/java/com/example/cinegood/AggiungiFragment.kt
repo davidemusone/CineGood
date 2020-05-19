@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_aggiungi.*
@@ -53,7 +52,7 @@ class AggiungiFragment : DialogFragment() {
 
         aggiungi_bottone.setOnClickListener{
             val name = edit_text_name_titolo.text.toString().trim()     //metti il titolo del film nella variabile name
-            if (name.isEmpty()) {       //se non inserisco il titolo del film ho errore
+            if (name.isEmpty()) {       //se non inserisco un campo del film ho errore
                 input_layout_name_titolo.error = "Inserire il titolo del film"
                 return@setOnClickListener
             }
